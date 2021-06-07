@@ -9,13 +9,26 @@ const string PALAVRA_SECRETA = "MELANCIA";
 map<char, bool> chutou;
 vector<char> chutes_errados;
 
-bool letra_existe(char chute) {    
+bool letra_existe(char chute) {
     for(char letra : PALAVRA_SECRETA) {
         if(chute == letra) {
             return true;
         }
     }
     return false;
+}
+
+bool nao_acertou() {
+    for(char letra : PALAVRA_SECRETA) {
+        if(!chutou[letra]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool nao_enforcou() {
+    return chutes_errados.size() < 5;
 }
 
 int main() {
@@ -25,12 +38,8 @@ int main() {
     cout << "*** Jogo da Forca ***" << endl;
     cout << "*********************" << endl;
     cout << endl;
-    
-    
-    bool nao_acertou = true;
-    bool nao_enforcou = true;
 
-    while(nao_acertou && nao_enforcou) {        
+    while(nao_acertou() && nao_enforcou()) {
 
         cout << "Chutes errados: ";
         for(char letra : chutes_errados) {
@@ -38,7 +47,6 @@ int main() {
         }
         cout << endl;
 
-        
         for(char letra : PALAVRA_SECRETA) {
             if(chutou[letra]) {
                 cout << letra << " ";
@@ -50,14 +58,13 @@ int main() {
         cout << endl;
 
         cout << "Seu chute: ";
-        
         char chute;
         cin >> chute;
 
         chutou[chute] = true;
 
         if(letra_existe(chute)) {
-            cout << "Você acertou! Seu chute está na palavra." << endl;            
+            cout << "Você acertou! Seu chute está na palavra." << endl;
         }
         else {
             cout << "Você errou! Seu chute não está na palavra." << endl;
