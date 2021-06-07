@@ -81,21 +81,29 @@ void chuta() {
 vector<string> le_arquivo() {
     ifstream arquivo;
     arquivo.open("palavras.txt");
-    
-    int quantidade_palavras;
-    arquivo >> quantidade_palavras;
 
-    cout << "O arquivo possui " << quantidade_palavras << " palavras." << endl;
+    if(arquivo.is_open()) {
+        int quantidade_palavras;
+        arquivo >> quantidade_palavras;
 
-    vector<string> palavras_do_arquivo;
+        cout << "O arquivo possui " << quantidade_palavras << " palavras." << endl;
 
-    for(int i = 0; i < quantidade_palavras; i++) {
-        string palavra_lida;
-        arquivo >> palavra_lida;        
-        cout << "Na linha " << i << " : " << palavra_lida << endl;
-        palavras_do_arquivo.push_back(palavra_lida);
+        vector<string> palavras_do_arquivo;
+
+        for(int i = 0; i < quantidade_palavras; i++) {
+            string palavra_lida;
+            arquivo >> palavra_lida;        
+            cout << "Na linha " << i << " : " << palavra_lida << endl;
+            palavras_do_arquivo.push_back(palavra_lida);
+        }
+
+        arquivo.close();
+        return palavras_do_arquivo;
     }
-    return palavras_do_arquivo;
+    else {
+        cout << "Não foi possível acessar o banco de palavras." << endl;
+        exit(EXIT_FAILURE);
+    }
 }
 
 void sorteia_palavra() {
@@ -109,7 +117,7 @@ void sorteia_palavra() {
 
 int main() {
     setlocale(LC_ALL, "Portuguese");
-    
+
     imprime_cabecalho();
 
     sorteia_palavra();
